@@ -12,13 +12,12 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.10'
-      - uses: android-actions/setup-android@v3
-      - name: Install SDK Build Tools
+      - name: Install Android SDK Tools
         run: |
-          yes | sdkmanager --licenses
-          sdkmanager "build-tools;33.0.2" "platforms;android-33" "platform-tools"
-          sdkmanager --install "build-tools;33.0.2"
-          ls $ANDROID_HOME/build-tools/33.0.2/aidl
+          yes | sdkmanager --licenses || true
+          sdkmanager --install "build-tools;33.0.2" "platforms;android-33" "platform-tools"
+          sdkmanager --list_installed
+          ls -l $ANDROID_HOME/build-tools/33.0.2/aidl || ls -l $ANDROID_SDK_ROOT/build-tools/33.0.2/aidl
       - name: Install Buildozer
         run: pip install buildozer cython==0.29.33
       - name: Build APK
